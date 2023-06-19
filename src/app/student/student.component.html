@@ -1,0 +1,54 @@
+<h2>Student List</h2>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Department</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let student of students">
+    <td>{{ student.id }}</td>
+    <td>{{ student.name }}</td>
+    <td>{{ student.department?.name }}</td>
+    <td>
+      <button (click)="getStudentById(student.id)">Edit</button>
+      <button (click)="deleteStudent(student)">Delete</button>
+    </td>
+  </tr>
+</table>
+
+<h2>Create/Update Student</h2>
+
+<form [formGroup]="studentForm" (ngSubmit)="selectedStudent ? updateStudent() : createStudent()">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name">
+  </div>
+
+  <div>
+    <label for="department">Department:</label>
+    <select id="department" formControlName="department">
+      <option *ngFor="let department of departments" [value]="department.id">{{ department.name }}</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit">{{ selectedStudent ? 'Update' : 'Create' }}</button>
+    <button type="button" (click)="clearForm()">Clear</button>
+  </div>
+</form>
+
+<h2>Search Student</h2>
+
+<form [formGroup]="searchForm">
+  <div>
+    <label for="searchName">Name:</label>
+    <input type="text" id="searchName" formControlName="searchName">
+  </div>
+
+  <div>
+    <button type="button" (click)="searchStudents()">Search</button>
+    <button type="button" (click)="getStudents()">Clear</button>
+  </div>
+</form>

@@ -1,0 +1,141 @@
+<form
+  #createForm="ngForm"
+  *ngIf="!selectedTeacher"
+  (ngSubmit)="createTeacher()"
+  novalidate
+>
+  <div>
+    <label for="create-name">Name:</label>
+    <input
+      type="text"
+      id="create-name"
+      name="createName"
+      [(ngModel)]="newTeacher.name"
+      required
+      minlength="3"
+    />
+    <div
+      *ngIf="
+        createForm.controls['createName']?.invalid &&
+        (createForm.controls['createName']?.dirty ||
+          createForm.controls['createName']?.touched)
+      "
+    >
+      <div *ngIf="createForm.controls['createName'].errors['required']">
+        Name is required.
+      </div>
+      <div *ngIf="createForm.controls['createName'].errors['minlength']">
+        Name must be at least 3 characters long.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="create-department">Department:</label>
+    <select
+      id="create-department"
+      name="createDepartment"
+      [(ngModel)]="newTeacher.department.id"
+      required
+    >
+      <option *ngFor="let department of departments" [value]="department.id">
+        {{ department.name }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        createForm.controls['createDepartment']?.invalid &&
+        (createForm.controls['createDepartment']?.dirty ||
+          createForm.controls['createDepartment']?.touched)
+      "
+    >
+      <div *ngIf="createForm.controls['createDepartment'].errors['required']">
+        Department is required.
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!createForm.valid">Create</button>
+</form>
+
+<!-- Update Form -->
+<form
+  *ngIf="selectedTeacher"
+  #updateForm="ngForm"
+  (ngSubmit)="updateTeacher()"
+  novalidate
+>
+  <div>
+    <label for="update-name">Name:</label>
+    <input
+      type="text"
+      id="update-name"
+      name="updateName"
+      [(ngModel)]="selectedTeacher.name"
+      required
+      minlength="3"
+    />
+    <div
+      *ngIf="
+        updateForm.controls['updateName']?.invalid &&
+        (updateForm.controls['updateName']?.dirty ||
+          updateForm.controls['updateName']?.touched)
+      "
+    >
+      <div *ngIf="updateForm.controls['updateName'].errors['required']">
+        Name is required.
+      </div>
+      <div *ngIf="updateForm.controls['updateName'].errors['minlength']">
+        Name must be at least 3 characters long.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="update-department">Department:</label>
+    <select
+      id="update-department"
+      name="updateDepartment"
+      [(ngModel)]="selectedTeacher.department.id"
+      required
+    >
+      <option *ngFor="let department of departments" [value]="department.id">
+        {{ department.name }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        updateForm.controls['updateDepartment']?.invalid &&
+        (updateForm.controls['updateDepartment']?.dirty ||
+          updateForm.controls['updateDepartment']?.touched)
+      "
+    >
+      <div *ngIf="updateForm.controls['updateDepartment'].errors['required']">
+        Department is required.
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!updateForm.valid">Update</button>
+</form>
+
+<!-- Teacher List -->
+<ul>
+  <li *ngFor="let teacher of teachers">
+    {{ teacher.name }} - {{ teacher.department.name }}
+    <button (click)="editTeacher(teacher)">Edit</button>
+    <button (click)="deleteTeacher(teacher.id)">Delete</button>
+  </li>
+</ul>
+
+<form (ngSubmit)="searchTeacher()" novalidate>
+  <label for="search-name">Search by Name:</label>
+  <input
+    type="text"
+    id="search-name"
+    name="searchName"
+    [(ngModel)]="searchName"
+    required
+  />
+  <button type="submit">Search</button>
+</form>

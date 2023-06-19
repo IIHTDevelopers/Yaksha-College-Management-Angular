@@ -1,0 +1,70 @@
+<h2>Department Details</h2>
+
+<div *ngIf="selectedDepartment">
+  <h3>{{ selectedDepartment.name }}</h3>
+
+  <h4>Students</h4>
+  <button (click)="listStudents()">List Students</button>
+  <ul *ngIf="students">
+    <li *ngFor="let student of students">
+      {{ student.name }}
+    </li>
+  </ul>
+
+  <h4>Teachers</h4>
+  <button (click)="listTeachers()">List Teachers</button>
+  <ul *ngIf="teachers">
+    <li *ngFor="let teacher of teachers">
+      {{ teacher.name }}
+    </li>
+  </ul>
+</div>
+
+<ul>
+  <li *ngFor="let department of departments">
+    {{ department.name }}
+    <button (click)="viewDepartment(department)">View Details</button>
+    <button (click)="editDepartment(department)">Edit</button>
+    <button (click)="deleteDepartment(department.id)">Delete</button>
+  </li>
+</ul>
+
+<!-- Department Form -->
+<h2>Create/Update Department</h2>
+
+<form (ngSubmit)="saveDepartment()" #departmentForm="ngForm">
+  <div>
+    <label for="name">Name:</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      [(ngModel)]="newDepartment.name"
+      required
+      #name="ngModel"
+    />
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="name-error">
+      <div *ngIf="name.errors['required']">Name is required.</div>
+    </div>
+  </div>
+  <button type="submit" [disabled]="departmentForm.invalid">Save</button>
+  <button type="button" (click)="clearForm()">Cancel</button>
+</form>
+
+<!-- Search Form -->
+<h2>Search Department</h2>
+
+<form (ngSubmit)="searchDepartment()" #searchForm="ngForm">
+  <div>
+    <label for="search-name">Search by Name:</label>
+    <input
+      type="text"
+      id="search-name"
+      name="searchName"
+      [(ngModel)]="searchName"
+      required
+    />
+  </div>
+  <button type="submit">Search</button>
+  <button type="button" (click)="clearSearch()">Clear</button>
+</form>
